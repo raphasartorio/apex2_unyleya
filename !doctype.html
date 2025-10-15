@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Simulador Educativo — Golpe por Fake News (Simulação)</title>
+  <style>
+    :root{--bg:#f5f7fb;--card:#fff;--accent:#b30000;--ok:#0b7a3a;--muted:#6b7280;--glass:rgba(255,255,255,0.6)}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial; background:linear-gradient(180deg,#eef2ff 0%,var(--bg) 100%);color:#111}
+    .container{max-width:980px;margin:36px auto;padding:18px}
+    .banner{display:flex;align-items:center;gap:16px}
+    .watermark{background:linear-gradient(90deg,rgba(179,0,0,0.06),transparent);padding:8px 12px;border-radius:8px;font-weight:700;color:var(--accent)}
+    .card{background:var(--card);border-radius:12px;box-shadow:0 6px 20px rgba(3,10,18,0.06);padding:20px;margin-top:18px}
+    .headline{font-size:1.6rem;font-weight:800;margin:6px 0}
+    .meta{color:var(--muted);font-size:0.9rem;margin-bottom:14px}
+
+    /* Simulated article */
+    .article{line-height:1.6;color:#222}
+    .cta{display:inline-block;margin-top:14px;background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;text-decoration:none}
+
+    /* Interactive hints */
+    .hint{display:inline-block;background:#fff8;backdrop-filter:blur(4px);border-radius:8px;padding:8px;margin-left:8px;font-size:0.85rem;color:var(--muted)}
+    .flag{color:var(--accent);font-weight:700}
+
+    /* Modal / overlay */
+    .overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.5);z-index:60}
+    .modal{background:var(--card);padding:20px;border-radius:12px;max-width:720px;width:92%;box-shadow:0 10px 40px rgba(2,6,23,0.3)}
+    .modal h3{margin-top:0}
+    .close{float:right;background:#eee;border:0;padding:6px 10px;border-radius:8px;cursor:pointer}
+
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:18px}
+    @media (max-width:880px){.grid{grid-template-columns:1fr}}
+
+    .panel{background:linear-gradient(180deg,#fff,#fbfdff);padding:12px;border-radius:10px}
+    .badge{display:inline-block;padding:6px 8px;border-radius:999px;background:#f0f7ff;color:#045; font-weight:700;margin-right:8px}
+
+    /* educational markers */
+    .marker{border-left:3px solid #ffd6c6;padding-left:10px;margin:14px 0;background:#fffef8;border-radius:8px}
+    pre{background:#0b1220;color:#dbeafe;padding:10px;border-radius:8px;overflow-x:auto}
+
+    /* safe form (non-functional) */
+    form .form-row{display:flex;flex-direction:column;margin-bottom:10px}
+    input,button,textarea{font-size:1rem;padding:10px;border-radius:8px;border:1px solid #d1d5db}
+    button{background:#0b5; color:#fff;border:0}
+    .danger{background:#b30000;color:#fff;border:0}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="banner">
+      <div class="watermark">Simulação Educativa</div>
+      <div>
+        <div style="font-weight:800">Simulador de Golpe por Fake News</div>
+        <div style="color:var(--muted);font-size:0.95rem">Exemplo didático — NÃO é um site real. Não insira dados verdadeiros.</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <main>
+        <article class="card">
+          <div class="headline">URGENTE: Governo vai bloquear seu CPF por dívida de imposto — Pague R$ 149 via PIX para regularizar!</div>
+          <div class="meta">Fonte: Notícias Brasil (site suspeito) · 2 minutos atrás · <span class="flag">ALERTA</span></div>
+
+          <div class="article">
+            <p>Uma notícia alarmante circula nas redes sociais afirmando que a Receita Federal adotou nova regra que cobra taxa para transações via Pix. Segundo o texto, contribuintes que não pagarem uma taxa de R$ 149 terão o CPF bloqueado imediatamente.</p>
+
+            <p><strong>Como funciona o golpe:</strong> o artigo apresenta um botão chamativo "Regularize agora" que abre um formulário de pagamento. O texto usa linguagem urgente e autoridade (nome da Receita), e inclui depoimentos falsos para dar credibilidade.</p>
+
+            <p style="margin-top:8px">Abaixo você pode interagir com alguns elementos do site simulado para entender os sinais de alerta — passe o mouse sobre os elementos marcados com <span class="hint">[?]</span> ou pressione os botões.</p>
+
+            <p>
+              <a class="cta" id="btn-check" href="#">Regularize agora</a>
+              <button type="button" class="close" id="btn-explain">Ver explicações</button>
+            </p>
+
+            <div class="marker">
+              <strong>Importante:</strong> Trata‑se de uma simulação educativa. O formulário não envia dados a nenhum servidor — ao clicar em "Regularize agora" você verá a simulação bloqueando a ação e exibindo orientações.
+            </div>
+
+          </div>
+        </article>
+
+        <section class="card" style="margin-top:16px">
+          <h3>Por que esta página é suspeita?</h3>
+          <ul>
+            <li><strong>Autoridade falsa:</strong> uso indevido do nome da Receita Federal sem links oficiais.</li>
+            <li><strong>Linguagem sensacionalista:</strong> termos como "URGENTE" e "bloqueio imediato" para gerar pânico.</li>
+            <li><strong>CTA imediato para pagamento:</strong> o botão leva a um pagamento sem verificação.</li>
+            <li><strong>URL e domínio estranhos:</strong> domínios com nome similar ao oficial mas com pequenas diferenças.</li>
+          </ul>
+        </section>
+
+        <section class="card" style="margin-top:16px">
+          <h3>Simulação de formulário (não funcional)</h3>
+          <form id="fake-form" onsubmit="return false;">
+            <div class="form-row">
+              <label>CPF (simulado)</label>
+              <input placeholder="000.000.000-00" id="cpf" />
+            </div>
+            <div class="form-row">
+              <label>Chave PIX</label>
+              <input placeholder="seu@email.com / celular / cpf" id="pix" />
+            </div>
+            <div class="form-row">
+              <label>Valor (R$)</label>
+              <input value="149" id="valor" />
+            </div>
+            <div style="display:flex;gap:8px">
+              <button type="button" class="danger" id="btn-pay">Pagar agora (Simulação)</button>
+              <button type="button" id="btn-clear">Limpar</button>
+            </div>
+          </form>
+        </section>
+
+      </main>
+
+      <aside>
+        <div class="panel">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span class="badge">Guia</span><strong>Sinais de alerta</strong></div>
+          <ol style="color:#123;margin-left:14px">
+            <li>Verifique a URL e procure por domínios oficiais.</li>
+            <li>Procure o conteúdo em sites oficiais (Receita, órgãos públicos).</li>
+            <li>Desconfie de pedidos de pagamento via WhatsApp ou links por DM.</li>
+            <li>Cheque a data e procure outras fontes confiáveis.</li>
+          </ol>
+
+          <hr style="margin:12px 0">
+          <div>
+            <strong>Recursos</strong>
+            <ul style="color:var(--muted)">
+              <li>Boas práticas de checagem de fatos</li>
+              <li>Como denunciar golpes: polícia, Procon, bancos</li>
+              <li>Campanhas de alfabetização midiática</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <div class="panel" style="margin-top:12px">
+          <strong>Legenda interativa</strong>
+          <p style="color:var(--muted);font-size:0.95rem">Clique nos botões abaixo para ver explicações das técnicas usadas por golpistas.</p>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+            <button type="button" id="btn-tech1">Autoridade falsa</button>
+            <button type="button" id="btn-tech2">Linguagem de urgência</button>
+            <button type="button" id="btn-tech3">Chamada para pagamento</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <div class="card" style="padding:12px">
+        <strong>Observação pedagógica:</strong> O objetivo deste simulador é demonstrar sinais comuns de golpes informativos e incentivar a checagem de fontes.
+      </div>
+    </footer>
+  </div>
+
+  <!-- Modal explicativo -->
+  <div id="overlay" class="overlay" role="dialog" aria-hidden="true">
+    <div class="modal">
+      <button type="button" class="close" id="closeModal">Fechar</button>
+      <h3>Explicação — Técnicas usadas no golpe</h3>
+      <div id="modalBody">
+        <p>Selecione um item no lado direito para ver a explicação.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Atenção: esta página é uma SIMULAÇÃO EDUCATIVA.
+    // Não envia ou armazena dados. Tudo é processado localmente.
+
+    const overlay = document.getElementById('overlay');
+    const modalBody = document.getElementById('modalBody');
+
+    function openModal(){ overlay.style.display='flex'; overlay.setAttribute('aria-hidden','false'); }
+    function closeModal(){ overlay.style.display='none'; overlay.setAttribute('aria-hidden','true'); }
+
+    document.getElementById('btn-explain').addEventListener('click', openModal);
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+
+    // Buttons showing technique explanations
+    document.getElementById('btn-tech1').addEventListener('click', ()=>{ 
+      modalBody.innerHTML = `
+        <h4>Autoridade falsa</h4>
+        <p>Golpistas usam nomes de instituições reais para ganhar confiança. Sempre verifique o domínio oficial (ex.: <code>receita.economia.gov.br</code>) e busque o comunicado no site oficial antes de tomar qualquer ação.</p>
+      `; openModal();
+    });
+    document.getElementById('btn-tech2').addEventListener('click', ()=>{ 
+      modalBody.innerHTML = `
+        <h4>Linguagem de urgência</h4>
+        <p>Termos como "URGENTE", "últimas horas" ou "bloqueio imediato" são usados para reduzir o tempo de reflexão. Pare, respire e verifique a informação em fontes confiáveis.</p>
+      `; openModal();
+    });
+    document.getElementById('btn-tech3').addEventListener('click', ()=>{ 
+      modalBody.innerHTML = `
+        <h4>Chamada para pagamento</h4>
+        <p>Pedidos de pagamento via link ou Pix, especialmente por mensagem instantânea, são um sinal de golpe. Bancos e órgãos oficiais nunca solicitam pagamentos por esses meios sem processo formal e canais oficiais.</p>
+      `; openModal();
+    });
+
+    // Intercept form buttons to prevent data capture and show educational messages
+    document.getElementById('btn-pay').addEventListener('click',(e)=>{
+      e.preventDefault();
+      alert('Atenção: esta ação faz parte de uma simulação educativa. NUNCA informe dados reais em formulários suspeitos.');
+      document.querySelector('.marker').scrollIntoView({behavior:'smooth'});
+    });
+
+    document.getElementById('btn-clear').addEventListener('click',(e)=>{
+      e.preventDefault();
+      document.getElementById('cpf').value = '';
+      document.getElementById('pix').value = '';
+      document.getElementById('valor').value = '';
+      alert('Campos limpos.');
+    });
+
+    // Simulate clicking the "Regularize agora" button
+    document.getElementById('btn-check').addEventListener('click',(e)=>{
+      e.preventDefault();
+      modalBody.innerHTML = `
+        <h4>O que aconteceria?</h4>
+        <p>Se este fosse um site fraudulento de verdade, o botão levaria a uma página de pagamento falsa ou faria o download de arquivos maliciosos. Neste simulador mostramos uma página segura e exibimos orientações: verifique o domínio, busque comunicado oficial e não realize pagamentos.</p>
+        <ul>
+          <li>Verifique a URL: exemplo.com vs exemple.com</li>
+          <li>Procure no site oficial da instituição</li>
+          <li>Não clique em links de mensagens não solicitadas</li>
+        </ul>
+      `;
+      openModal();
+    });
+
+    // Accessibility: close modal on Esc
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+  </script>
+</body>
+</html>
